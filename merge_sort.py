@@ -32,7 +32,7 @@ def main():
             print(f'{c} is out of order, {last} is greater')
             exit (1)
         last = c
-    print('All element in sorted order')
+    print('All elements in sorted order')
 
 if __name__ == '__main__':
     main()
