@@ -7,3 +7,4 @@ Based on _recursive mergesort algorithm_ found in Sanjoy Dasgupta, Christos Papa
 
 <img width="393" alt="Screenshot 2023-12-14 at 3 39 05 PM" src="https://github.com/rockywhitely/Merge_Sort/assets/21991756/d3b68c3f-658a-4f6d-8e6b-b75944f9c4e4">
 
+The open dot symbol (◦) denotes concatenation.
