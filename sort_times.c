@@ -58,7 +58,7 @@ int main(int argc, char const *argv[])
     start_time = clock();
     merge_sort(arr, 0, (int)count - 1);
     end_time = clock();
-    print_results(arr, &start_time, &end_time, "Recursive MERGESORT (inplace array)");
+    print_results(arr, &start_time, &end_time, "Recursive MERGESORT (temp array)  ");
 
     return 0;
 }
@@ -81,26 +81,78 @@ void merge_sort(int arr[], int left, int right)
 // sort & merge adjacent slices of array
 void merge(int arr[], int left, int mid, int right)
 {
-    // sort increasingly larger slices of array
-    int midRight = mid + 1;
-    if (left > mid || midRight > right)
-        return;
-    if (arr[midRight] < arr[left])
+    int temp[count];
+    int midR = mid + 1;
+    int tLeft = left;
+    int aLeft = left;
+
+    // sort lefthand & righthand of array to temp array
+    // one element at a time; Break when one hand is sorted
+    while (left <= mid && midR <= right)
     {
-        int temp = arr[midRight];
-        // move array slice right by one place
-        memcpy(arr + left + 1, arr + left, (midRight - left) * sizeof(int));
-        // replace left element with new left
-        arr[left] = temp;
-        // recursively merge remainder of array slice
-        merge(arr, left + 1, midRight, right);
+        if (arr[left] <= arr[midR])
+        {
+            temp[tLeft] = arr[left];
+            left++;
+        }
+        else
+        {
+            temp[tLeft] = arr[midR];
+            midR++;
+        }
+        tLeft++;
     }
+    // Combine remainder of OLD-SORTED hand
+    // ...whether righthand
+    if (left > mid)
+    {
+        while (midR <= right)
+        {
+            temp[tLeft] = arr[midR];
+            midR++;
+            tLeft++;
+        }
+    }
+    // ...or lefthand
     else
     {
-        // recursively merge remainder of array slice
-        merge(arr, left + 1, mid, right);
+        while (left <= mid)
+        {
+            temp[tLeft] = arr[left];
+            left++;
+            tLeft++;
+        }
+    }
+    // copy temp array to 'arr'
+    for (int i = aLeft; i <= right; i++)
+    {
+        arr[i] = temp[i];
     }
 }
+
+// OLD/SLOW MERGE
+// void merge(int arr[], int left, int mid, int right)
+// {
+//     // sort increasingly larger slices of array
+//     int midRight = mid + 1;
+//     if (left > mid || midRight > right)
+//         return;
+//     if (arr[midRight] < arr[left])
+//     {
+//         int temp = arr[midRight];
+//         // move array slice right by one place
+//         memcpy(arr + left + 1, arr + left, (midRight - left) * sizeof(int));
+//         // replace left element with new left
+//         arr[left] = temp;
+//         // recursively merge remainder of array slice
+//         merge(arr, left + 1, midRight, right);
+//     }
+//     else
+//     {
+//         // recursively merge remainder of array slice
+//         merge(arr, left + 1, mid, right);
+//     }
+// }
 
 int compare(const void *x, const void *y)
 {
