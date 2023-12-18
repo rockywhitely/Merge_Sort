@@ -24,12 +24,13 @@ const size_t count = 32767;
 
 int main(int argc, char const *argv[])
 {
+    // Uncomment lines 33, 42 & 53-56 to use MacOS 'mergesort' in the 'stdlib.h' library
     long start_time, end_time;
     double elapsed;
     // declare arr[ays]
     // initialize with random numbers
     int arr[count];
-    int arrB[count];
+    // int arrB[count];
     int arrC[count];
     srand(time(0));
 
@@ -38,7 +39,7 @@ int main(int argc, char const *argv[])
     {
         num = rand() % 32767;
         arr[i] = num;
-        arrB[i] = num;
+        // arrB[i] = num;
         arrC[i] = num;
     }
 
@@ -49,10 +50,10 @@ int main(int argc, char const *argv[])
     print_results(arrC, &start_time, &end_time, "QSORT in stdlib.h\t\t  ");
 
     // Time 'mergesort'
-    start_time = clock();
-    int result = mergesort(arrB, count, sizeof(int), compare);
-    end_time = clock();
-    print_results(arrB, &start_time, &end_time, "MERGESORT in stdlib.h\t\t  ");
+    // start_time = clock();
+    // int result = mergesort(arrB, count, sizeof(int), compare);
+    // end_time = clock();
+    // print_results(arrB, &start_time, &end_time, "MERGESORT in stdlib.h\t\t  ");
 
     // Time 'recursive merge_sort'
     start_time = clock();
