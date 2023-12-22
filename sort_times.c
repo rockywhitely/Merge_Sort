@@ -24,13 +24,14 @@ const size_t count = 32767;
 
 int main(int argc, char const *argv[])
 {
-    // Uncomment lines 33, 42 & 53-56 to use MacOS 'mergesort' in the 'stdlib.h' library
     long start_time, end_time;
-    double elapsed;
+
     // declare arr[ays]
     // initialize with random numbers
     int arr[count];
-    // int arrB[count];
+#ifdef __APPLE__
+    int arrB[count];
+#endif
     int arrC[count];
     srand(time(0));
 
@@ -39,7 +40,9 @@ int main(int argc, char const *argv[])
     {
         num = rand() % 32767;
         arr[i] = num;
-        // arrB[i] = num;
+#ifdef __APPLE__
+        arrB[i] = num;
+#endif
         arrC[i] = num;
     }
 
@@ -49,12 +52,21 @@ int main(int argc, char const *argv[])
     end_time = clock();
     print_results(arrC, &start_time, &end_time, "QSORT in stdlib.h\t\t  ");
 
+#ifdef __APPLE__
     // Time 'mergesort'
-    // start_time = clock();
-    // int result = mergesort(arrB, count, sizeof(int), compare);
-    // end_time = clock();
-    // print_results(arrB, &start_time, &end_time, "MERGESORT in stdlib.h\t\t  ");
-
+    start_time = clock();
+    int result = mergesort(arrB, count, sizeof(int), compare);
+    end_time = clock();
+    if (result == 0)
+    {
+        print_results(arrB, &start_time, &end_time, "MERGESORT in stdlib.h\t\t  ");
+    }
+    else
+    {
+        printf("Mergsort failed\n");
+        return 1;
+    }
+#endif
     // Time 'recursive merge_sort'
     start_time = clock();
     merge_sort(arr, 0, (int)count - 1);
@@ -87,7 +99,7 @@ void merge(int arr[], int left, int mid, int right)
     int tLeft = left;
     int aLeft = left;
 
-    // sort lefthand & righthand of array to temp array
+    // sort lefthand & righthand of array to 'temp' array
     // one element at a time; Break when one hand is sorted
     while (left <= mid && midR <= right)
     {
@@ -124,14 +136,14 @@ void merge(int arr[], int left, int mid, int right)
             tLeft++;
         }
     }
-    // copy temp array to 'arr'
+    // copy 'temp' array to 'arr'
     for (int i = aLeft; i <= right; i++)
     {
         arr[i] = temp[i];
     }
 }
 
-// OLD/SLOW MERGE
+// OLD/SLOW MERGE: sort inplace
 // void merge(int arr[], int left, int mid, int right)
 // {
 //     // sort increasingly larger slices of array
